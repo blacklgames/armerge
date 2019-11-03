@@ -1,0 +1,16 @@
+1. Main porpose 
+2. Project short description
+3. Used Tools
+
+1. Main purpose
+Create convinient tool to merge autosar configuration files(arxml).
+
+2. Project short description
+Project name "armerge". Developing based on MVC template. 
+
+3. Used tools
+IDE - qt creator(Qt 5.10.1 (MSVC 2015, 32 bit)
+Build system - cmake(cmake-3.16.0-rc3)
+View - wxWidgets(wxWidgets-3.1.3)
+XML parser - pugixml(?)
+
