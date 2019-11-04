@@ -24,11 +24,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    utils/xml/pugixml.cpp \
+    view/screens/mergescreen.cpp \
+    utils/patterns/observer/observer.cpp \
+    utils/patterns/observer/subject.cpp \
     view/mainwindow.cpp \
-    main.cpp
+    main.cpp \
+    view/screens/changesscreen.cpp \
+    view/communication/viewsubject.cpp
 
 HEADERS += \
-    view/mainwindow.h
+    utils/xml/pugiconfig.hpp \
+    utils/xml/pugixml.hpp \
+    view/screens/mergescreen.h \
+    utils/patterns/observer/observer.h \
+    utils/patterns/observer/subject.h \
+    view/mainwindow.h \
+    view/screens/changesscreen.h \
+    view/communication/viewsubject.h
 
 FORMS += \
-    forms/mainwindow.ui
+    forms/changesscreen.ui \
+    forms/mainwindow.ui \
+    forms/mergescreen.ui
+
