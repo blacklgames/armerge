@@ -16,6 +16,15 @@ public:
     explicit MergeScreen(QWidget *parent = nullptr);
     ~MergeScreen();
 
+private slots:
+    void on_btnMoveYorSelected_clicked();
+
+    void on_btnMoveYourAll_clicked();
+
+    void on_btnRemoveCurrentSelected_clicked();
+
+    void on_btnRemoveCurrentAll_clicked();
+
 private:
     Ui::MergeScreen *ui;
 };

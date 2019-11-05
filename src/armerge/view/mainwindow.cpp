@@ -10,6 +10,15 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Luxoft ARMerge tool");
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::init()
+{
     stackedWidget = new QStackedWidget(this);
     setCentralWidget(stackedWidget);
 
@@ -17,11 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
     MergeScreen* merges = new MergeScreen();
     stackedWidget->addWidget(changes);
     stackedWidget->addWidget(merges);
+    changes->attach(mProxy);
+    merges->attach(mProxy);
 }
 
-MainWindow::~MainWindow()
+void MainWindow::setProxy(ViewProxy* proxy)
 {
-    delete ui;
+    mProxy = proxy;
 }
 
 void MainWindow::on_actionGoToChanges_triggered()

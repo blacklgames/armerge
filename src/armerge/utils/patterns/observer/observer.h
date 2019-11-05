@@ -9,17 +9,9 @@ struct sSubjectEventType;
 class Observer
 {
 public:
-    Observer(Subject* mod, int div);
-
-    virtual void update(sSubjectEventType* event) = 0;
-
-protected:
-    Subject* getSubject();
-    int getDivisor();
+    virtual void update(int event) = 0;
 
 private:
-    int mDenom;
-    Subject* mModel;
 
 };
 

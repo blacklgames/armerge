@@ -17,6 +17,13 @@ public:
     explicit ChangesScreen(QWidget *parent = nullptr);
     ~ChangesScreen();
 
+private slots:
+    void on_btnFix_clicked();
+    void on_btnRemoveSelected_clicked();
+    void on_btnClearAll_clicked();
+
+    void on_btnFix_clicked(bool checked);
+
 private:
     Ui::ChangesScreen *ui;
 };

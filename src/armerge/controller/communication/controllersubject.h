@@ -1,13 +1,14 @@
-#ifndef VIEWSUBJECT_H
-#define VIEWSUBJECT_H
+#ifndef ControllerSUBJECT_H
+#define ControllerSUBJECT_H
 
 #include "utils/patterns/observer/subject.h"
 
-class ViewSubject : public Subject
+class ControllerSubject : public Subject
 {
 public:
-    enum eViewEvents
+    enum eControllerEvents
     {
+        INIT,
         FIX_CHANGES,
         REMOVE_SELECTED,
         CLEAR_ALL,
@@ -18,7 +19,7 @@ public:
     };
 
 public:
-    ViewSubject();
+    ControllerSubject();
 };
 
 #endif // VIEWSUBJECT_H

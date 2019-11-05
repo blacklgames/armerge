@@ -24,7 +24,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    controller/commands/command.cpp \
+    controller/commands/initcommand.cpp \
+    controller/communication/controllerproxy.cpp \
+    controller/communication/controllersubject.cpp \
+    controller/controller.cpp \
     utils/xml/pugixml.cpp \
+    view/communication/viewproxy.cpp \
     view/screens/mergescreen.cpp \
     utils/patterns/observer/observer.cpp \
     utils/patterns/observer/subject.cpp \
@@ -34,8 +40,14 @@ SOURCES += \
     view/communication/viewsubject.cpp
 
 HEADERS += \
+    controller/commands/command.h \
+    controller/commands/initcommand.h \
+    controller/communication/controllerproxy.h \
+    controller/communication/controllersubject.h \
+    controller/controller.h \
     utils/xml/pugiconfig.hpp \
     utils/xml/pugixml.hpp \
+    view/communication/viewproxy.h \
     view/screens/mergescreen.h \
     utils/patterns/observer/observer.h \
     utils/patterns/observer/subject.h \

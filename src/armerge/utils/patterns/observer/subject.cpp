@@ -2,13 +2,15 @@
 
 Subject::Subject()
 {
-
 }
 
-void Subject::notify(sSubjectEventType* event)
+void Subject::notify(int event)
 {
-    for (size_t i = 0; i < mViews.size(); ++i) {
-        mViews[i]->update(event);
+    if(mViews.size() < 100)
+    {
+        for (size_t i = 0; i < mViews.size(); ++i) {
+            mViews[i]->update(event);
+        }
     }
 }
 

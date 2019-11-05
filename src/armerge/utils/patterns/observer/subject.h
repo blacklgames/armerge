@@ -7,11 +7,6 @@
 
 using namespace std;
 
-struct sSubjectEventType
-{
-    int value;
-};
-
 class Subject
 {
 private:
@@ -20,7 +15,7 @@ private:
 public:
     Subject();
 
-    void notify(sSubjectEventType* event);
+    void notify(int event);
     void attach(Observer* obs);
 };
 
