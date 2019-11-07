@@ -34,6 +34,10 @@ void ViewProxy::update(int event)
         notify(ControllerSubject::REMOVE_CURRENT_ALL);
         //qInfo() << "REMOVE_CURRENT_ALL";
         break;
+    case ViewSubject::INIT:
+        notify(ViewSubject::INIT);
+        //qInfo() << "REMOVE_CURRENT_ALL";
+        break;
     default:
         //qInfo() << "default";
         break;

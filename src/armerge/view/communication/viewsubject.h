@@ -14,7 +14,8 @@ public:
         MOVE_YOR_SELECTED,
         MOVE_YOUR_ALL,
         REMOVE_CURRENT_SELECTED,
-        REMOVE_CURRENT_ALL
+        REMOVE_CURRENT_ALL,
+        INIT
     };
 
 public:

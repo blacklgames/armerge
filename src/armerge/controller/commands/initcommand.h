@@ -11,6 +11,7 @@ public:
     virtual void execute();
 
     bool copyPath(QString src, QString dst);
+    bool removeDir(const QString & dirName);
 };
 
 #endif // INITCOMMAND_H

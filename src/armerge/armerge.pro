@@ -29,6 +29,7 @@ SOURCES += \
     controller/communication/controllerproxy.cpp \
     controller/communication/controllersubject.cpp \
     controller/controller.cpp \
+    settingssingletone.cpp \
     utils/xml/pugixml.cpp \
     view/communication/viewproxy.cpp \
     view/screens/mergescreen.cpp \
@@ -37,7 +38,8 @@ SOURCES += \
     view/mainwindow.cpp \
     main.cpp \
     view/screens/changesscreen.cpp \
-    view/communication/viewsubject.cpp
+    view/communication/viewsubject.cpp \
+    view/screens/settingswindow.cpp
 
 HEADERS += \
     controller/commands/command.h \
@@ -45,6 +47,7 @@ HEADERS += \
     controller/communication/controllerproxy.h \
     controller/communication/controllersubject.h \
     controller/controller.h \
+    settingssingletone.h \
     utils/xml/pugiconfig.hpp \
     utils/xml/pugixml.hpp \
     view/communication/viewproxy.h \
@@ -53,10 +56,12 @@ HEADERS += \
     utils/patterns/observer/subject.h \
     view/mainwindow.h \
     view/screens/changesscreen.h \
-    view/communication/viewsubject.h
+    view/communication/viewsubject.h \
+    view/screens/settingswindow.h
 
 FORMS += \
     forms/changesscreen.ui \
     forms/mainwindow.ui \
-    forms/mergescreen.ui
+    forms/mergescreen.ui \
+    forms/settingscreen.ui
 

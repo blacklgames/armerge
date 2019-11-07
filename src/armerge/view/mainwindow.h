@@ -15,7 +15,8 @@ class MainWindow;
 enum eScreens
 {
     SCREEN_CHAGES,
-    SCREEN_MERGE
+    SCREEN_MERGE,
+    SCREEN_SETTINGS
 };
 
 class MainWindow : public QMainWindow
@@ -32,6 +33,8 @@ public:
 private slots:
     void on_actionGoToChanges_triggered();
     void on_actionGoToMerges_triggered();
+
+    void on_actionGoToSettings_triggered();
 
 private:
     ViewProxy *mProxy;

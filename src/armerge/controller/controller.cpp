@@ -4,7 +4,7 @@
 
 Controller::Controller()
 {
-    update(ControllerSubject::INIT);
+
 }
 
 void Controller::update(int event)

@@ -28,6 +28,9 @@ void ControllerProxy::update(int event)
     case ViewSubject::REMOVE_CURRENT_ALL:
         notify(ControllerSubject::REMOVE_CURRENT_ALL);
         break;
+    case ViewSubject::INIT:
+        notify(ControllerSubject::INIT);
+        break;
     default:
         qInfo() << "default";
         break;

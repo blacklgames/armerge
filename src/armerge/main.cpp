@@ -12,11 +12,9 @@ int main(int argc, char *argv[])
     ControllerProxy* cp = new ControllerProxy();
     Controller* contoller = new Controller();
     vp->attach(cp);
-    cp->notify(ControllerSubject::INIT);
     cp->attach(contoller);
     w.setProxy(vp);
     w.init();
     w.show();
-
     return a.exec();
 }
