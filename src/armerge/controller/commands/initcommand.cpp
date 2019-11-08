@@ -15,9 +15,14 @@ InitCommand::InitCommand()
 
 }
 
+InitCommand::~InitCommand()
+{
+
+}
+
 void InitCommand::execute()
 {
-    std::cout << "execute init command " << std::endl;\
+    std::cout << "execute init command " << std::endl;
 
     std::vector<QString> sList = SettingsSingletone::getInstance()->getSettingList();
     QString pp(sList[SettingsSingletone::S_SOURCE_PATH]);
@@ -27,8 +32,9 @@ void InitCommand::execute()
     if(!d.exists())
     {
         QDir().mkdir(wp);
+        copyPath(pp, wp);
     }
-    copyPath(pp, wp);
+
     //removeDir(QString("D:/work/GM/source/new_E2/GM_E2_MY21_VP/gm.di.e4.bsp.delivery/di.gen.2022.gm.e4.vip.bsw.cfg/project/Config/tmp"));
 }
 
@@ -69,8 +75,8 @@ bool InitCommand::copyPath(QString sourceFolder, QString destFolder)
 
     QStringList files = sourceDir.entryList(QDir::Files);
     for(int i = 0; i< files.count(); i++) {
-        QString srcName = sourceFolder + QDir::separator() + files[i];
-        QString destName = destFolder + QDir::separator() + files[i];
+        QString srcName = sourceDir.absolutePath() + QDir::separator() + files[i];
+        QString destName = destDir.absolutePath() + QDir::separator() + files[i];
         success = QFile::copy(srcName, destName);
         if(!success)
             return false;
@@ -80,8 +86,8 @@ bool InitCommand::copyPath(QString sourceFolder, QString destFolder)
     files = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
     for(int i = 0; i< files.count(); i++)
     {
-        QString srcName = sourceFolder + QDir::separator() + files[i];
-        QString destName = destFolder + QDir::separator() + files[i];
+        QString srcName = sourceDir.absolutePath() + QDir::separator() + files[i];
+        QString destName = destDir.absolutePath() + QDir::separator() + files[i];
         success = copyPath(srcName, destName);
         if(!success)
             return false;

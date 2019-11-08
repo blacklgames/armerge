@@ -8,3 +8,11 @@ Command::Command()
 {
 
 }
+
+Command::~Command()
+{
+
+}
+
+void Command::stop(){}
+void Command::execute(){}

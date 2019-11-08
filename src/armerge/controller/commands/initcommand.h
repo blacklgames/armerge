@@ -8,6 +8,9 @@ class InitCommand : public Command
 {
 public:
     InitCommand();
+    virtual ~InitCommand();
+
+public slots:
     virtual void execute();
 
     bool copyPath(QString src, QString dst);

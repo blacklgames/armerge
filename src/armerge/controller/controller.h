@@ -1,10 +1,11 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include "QObject"
 #include "utils/patterns/observer/observer.h"
 #include "controller/commands/command.h"
 
-class Controller : public Observer
+class Controller : public Observer, public QObject
 {
 public:
     Controller();

@@ -1,6 +1,8 @@
 #include "controller.h"
 #include "controller/communication/controllersubject.h"
 #include "controller/commands/initcommand.h"
+#include <memory>
+#include <QThread>
 
 Controller::Controller()
 {
@@ -10,11 +12,12 @@ Controller::Controller()
 void Controller::update(int event)
 {
     Command* command = nullptr;
-
+    shared_ptr<Command> cmd(command);
     switch(event)
     {
     case ControllerSubject::INIT:
         command = new InitCommand();
+
         break;
     case ControllerSubject::FIX_CHANGES:
 
@@ -45,7 +48,13 @@ void Controller::update(int event)
 
     if(nullptr != command)
     {
-        command->execute();
-        delete command;
+        QThread* thread = new QThread;
+        command->moveToThread(thread);
+        connect(thread, SIGNAL(started()), command, SLOT(execute()));
+        connect(command, SIGNAL(finished()), thread, SLOT(quit()));
+        connect(this, SIGNAL(stopAll()), command, SLOT(stop()));
+        connect(command, SIGNAL(finished()), command, SLOT(deleteLater()));
+        connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+        thread->start();
     }
 }
