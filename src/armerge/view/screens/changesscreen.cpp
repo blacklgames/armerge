@@ -30,5 +30,5 @@ void ChangesScreen::on_btnClearAll_clicked()
 
 void ChangesScreen::on_btnFix_clicked(bool checked)
 {
-
+    checked = checked;
 }

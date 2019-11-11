@@ -8,11 +8,15 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    ViewProxy* vp = new ViewProxy();
-    ControllerProxy* cp = new ControllerProxy();
-    Controller* contoller = new Controller();
+    ViewProxy *vp = new ViewProxy();
+    Controller *contoller = new Controller();
+    ControllerProxy *cp = new ControllerProxy();
+    Model *model = new Model();
+
     vp->attach(cp);
     cp->attach(contoller);
+    contoller->setModel(model);
+
     w.setProxy(vp);
     w.init();
     w.show();

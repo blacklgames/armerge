@@ -29,6 +29,9 @@ SOURCES += \
     controller/communication/controllerproxy.cpp \
     controller/communication/controllersubject.cpp \
     controller/controller.cpp \
+    model/model.cpp \
+    model/objects/changedfiles.cpp \
+    model/objects/changes.cpp \
     settingssingletone.cpp \
     utils/xml/pugixml.cpp \
     view/communication/viewproxy.cpp \
@@ -47,6 +50,9 @@ HEADERS += \
     controller/communication/controllerproxy.h \
     controller/communication/controllersubject.h \
     controller/controller.h \
+    model/model.h \
+    model/objects/changedfiles.h \
+    model/objects/changes.h \
     settingssingletone.h \
     utils/xml/pugiconfig.hpp \
     utils/xml/pugixml.hpp \

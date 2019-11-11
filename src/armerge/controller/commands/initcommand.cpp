@@ -7,6 +7,10 @@
 #include <CString>
 #include "settingssingletone.h"
 #include "QDir"
+#include <string>
+#include <fstream>
+#include <streambuf>
+#include <iterator>
 
 using namespace std;
 
@@ -59,6 +63,10 @@ bool InitCommand::checkWorkFolder(QString sourceFolder, QString destFolder, bool
             success = QFile::copy(srcName, destName);
             if(!success) return false;
         }
+        else if(!quickFileCompire(srcName, destName))
+        {
+            emit fileChanged(srcName);
+        }
 
         mFileWatcher->addPath(srcName);
     }
@@ -75,6 +83,19 @@ bool InitCommand::checkWorkFolder(QString sourceFolder, QString destFolder, bool
     }
 
     return true;
+}
+
+bool InitCommand::quickFileCompire(QString src, QString dst)
+{
+    std::ifstream stream{src.toStdString()};
+    std::string file1{std::istreambuf_iterator<char>(stream),
+                    std::istreambuf_iterator<char>()};
+
+    stream = std::ifstream{dst.toStdString()};
+    std::string file2{std::istreambuf_iterator<char>(stream),
+                    std::istreambuf_iterator<char>()};
+
+    return file1 == file2;
 }
 
 bool InitCommand::removeDir(const QString & dirName)
