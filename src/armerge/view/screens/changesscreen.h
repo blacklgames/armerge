@@ -17,6 +17,8 @@ public:
     explicit ChangesScreen(QWidget *parent = nullptr);
     ~ChangesScreen();
 
+    void updateView();
+
 private slots:
     void on_btnFix_clicked();
     void on_btnRemoveSelected_clicked();

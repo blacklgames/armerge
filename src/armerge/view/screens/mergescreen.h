@@ -16,6 +16,8 @@ public:
     explicit MergeScreen(QWidget *parent = nullptr);
     ~MergeScreen();
 
+    void updateView();
+
 private slots:
     void on_btnMoveYorSelected_clicked();
 

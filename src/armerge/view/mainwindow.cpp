@@ -27,13 +27,18 @@ void MainWindow::init()
     SettingsWindow* settings = new SettingsWindow();
     ChangesScreen* changes = new ChangesScreen();
     MergeScreen* merges = new MergeScreen();
-
+    mViewList.push_back(settings);
+    mViewList.push_back(changes);
+    mViewList.push_back(merges);
     stackedWidget->addWidget(changes);
     stackedWidget->addWidget(merges);
     stackedWidget->addWidget(settings);
-    changes->attach(mProxy);
-    merges->attach(mProxy);
-    settings->attach(mProxy);
+
+    for(auto screen : mViewList)
+    {
+        screen->attach(mProxy);
+        screen->setModel(mModel);
+    }
 
     if(!SettingsSingletone::getInstance()->isConfigure())
     {
@@ -43,12 +48,17 @@ void MainWindow::init()
     {
         changes->notify(ViewSubject::INIT);
     }
-
 }
 
 void MainWindow::setProxy(ViewProxy* proxy)
 {
     mProxy = proxy;
+}
+
+void MainWindow::setModel(Model* model)
+{
+    mModel = model;
+    connect(mModel, SIGNAL(updateView()), this, SLOT(updateView()));
 }
 
 void MainWindow::on_actionGoToChanges_triggered()
@@ -65,3 +75,11 @@ void MainWindow::on_actionGoToSettings_triggered()
 {
     stackedWidget->setCurrentIndex(SCREEN_SETTINGS);
 }
+
+void MainWindow::updateView()
+{
+    foreach (auto screen, mViewList) {
+        screen->updateView();
+    }
+}
+

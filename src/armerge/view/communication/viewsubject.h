@@ -2,6 +2,7 @@
 #define VIEWSUBJECT_H
 
 #include "utils/patterns/observer/subject.h"
+#include "model/model.h"
 
 class ViewSubject : public Subject
 {
@@ -20,6 +21,12 @@ public:
 
 public:
     ViewSubject();
+
+    virtual void updateView() = 0;
+    void setModel(Model* model);
+
+protected:
+    Model* mModel;
 };
 
 #endif // VIEWSUBJECT_H

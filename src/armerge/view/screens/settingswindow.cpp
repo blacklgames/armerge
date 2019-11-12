@@ -157,3 +157,8 @@ void SettingsWindow::on_cbStrems_currentTextChanged(const QString &arg1)
         on_okBtn_clicked();
     }
 }
+
+void SettingsWindow::updateView()
+{
+
+}

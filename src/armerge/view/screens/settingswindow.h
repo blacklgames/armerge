@@ -17,6 +17,8 @@ public:
     explicit SettingsWindow(QWidget *parent = 0);
     ~SettingsWindow();
 
+    void updateView();
+
 private slots:
     void on_okBtn_clicked();
 

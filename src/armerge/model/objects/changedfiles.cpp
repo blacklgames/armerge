@@ -5,12 +5,12 @@ ChangedFiles::ChangedFiles(QObject *parent) : QObject(parent)
 
 }
 
-void ChangedFiles::setName(QString name)
+void ChangedFiles::setName(QString& name)
 {
     mName = name;
 }
 
-QString ChangedFiles::getName() const
+const QString& ChangedFiles::getName() const
 {
     return mName;
 }

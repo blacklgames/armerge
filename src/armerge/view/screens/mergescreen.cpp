@@ -32,3 +32,8 @@ void MergeScreen::on_btnRemoveCurrentAll_clicked()
 {
     notify(REMOVE_CURRENT_ALL);
 }
+
+void MergeScreen::updateView()
+{
+
+}

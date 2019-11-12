@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     ControllerProxy *cp = new ControllerProxy();
     Model *model = new Model();
 
+    w.setModel(model);
     vp->attach(cp);
     cp->attach(contoller);
     contoller->setModel(model);

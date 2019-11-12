@@ -6,7 +6,8 @@
 #include <QtWidgets/qtreewidgetitemiterator.h>
 #include "QStackedWidget.h"
 #include "communication/viewproxy.h"
-
+#include "communication/viewsubject.h"
+#include "model/model.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,17 +30,22 @@ public:
 
     void init();
     void setProxy(ViewProxy* proxy);
+    void setModel(Model* model);
 
 private slots:
     void on_actionGoToChanges_triggered();
     void on_actionGoToMerges_triggered();
-
     void on_actionGoToSettings_triggered();
+
+public slots:
+    void updateView();
 
 private:
     ViewProxy *mProxy;
+    Model *mModel;
     Ui::MainWindow *ui;
     QStackedWidget *stackedWidget;
+    std::vector<ViewSubject*> mViewList;
 };
 
 #endif // MAINWINDOW_H

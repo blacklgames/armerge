@@ -7,6 +7,11 @@ Model::Model(QObject *parent) : QObject(parent)
 
 }
 
+const vFiles& Model::getChangedFiles() const
+{
+    return mChangedFiles;
+}
+
 void Model::addChangedFile(QString name, bool isChanged)
 {
     bool present = false;
@@ -28,6 +33,7 @@ void Model::addChangedFile(QString name, bool isChanged)
         file->setName(name);
         mChangedFiles.push_back(file);
     }
+    emit updateView();
 }
 
 void Model::addChangesToFile(const QString& name, const QString& changes)
