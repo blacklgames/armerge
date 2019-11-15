@@ -12,6 +12,13 @@ const vFiles& Model::getChangedFiles() const
     return mChangedFiles;
 }
 
+void Model::clearAllFiles()
+{
+    cout << "clearAllFiles" << endl;
+    mChangedFiles.clear();
+    emit updateView();
+}
+
 void Model::addChangedFile(QString name, bool isChanged)
 {
     bool present = false;

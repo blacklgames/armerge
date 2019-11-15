@@ -25,6 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     controller/commands/command.cpp \
+    controller/commands/findchangescommand.cpp \
+    controller/commands/fixchangescommand.cpp \
     controller/commands/initcommand.cpp \
     controller/communication/controllerproxy.cpp \
     controller/communication/controllersubject.cpp \
@@ -46,6 +48,8 @@ SOURCES += \
 
 HEADERS += \
     controller/commands/command.h \
+    controller/commands/findchangescommand.h \
+    controller/commands/fixchangescommand.h \
     controller/commands/initcommand.h \
     controller/communication/controllerproxy.h \
     controller/communication/controllersubject.h \

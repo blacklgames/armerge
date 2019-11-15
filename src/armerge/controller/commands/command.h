@@ -14,12 +14,19 @@ public:
     Command();
     virtual ~Command();
 
+    bool isFinished();
+
 public slots:
     virtual void execute();
-    void stop();
 
 signals:
     void finished();
+
+protected:
+    void finishCommand();
+
+private:
+    bool mIsFinished;
 
 };
 

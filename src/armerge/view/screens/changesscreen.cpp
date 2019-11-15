@@ -37,23 +37,29 @@ void ChangesScreen::updateView()
 {
     const vFiles& fileList = mModel->getChangedFiles();
     QTreeWidget * tree = ui->treeChanges;
-    tree->clear();
 
     for(auto it = fileList.begin(); it != fileList.end(); ++it)
     {
-        QTreeWidgetItem * topLevel = new QTreeWidgetItem();
-        auto name = (*it)->getName();
-        topLevel->setText(0, name);
-
-        for(int i=0; i<5; i++)
+        QList<QTreeWidgetItem*> items = tree->findItems((*it)->getName(),Qt::MatchContains|Qt::MatchContains, 0);
+        if (items.count() == 0)
         {
-            QTreeWidgetItem * item = new QTreeWidgetItem();
-            item->setText(0,"item " + QString::number(i+1));
-            topLevel->addChild(item);
+            QTreeWidgetItem * topLevel = new QTreeWidgetItem();
+            auto name = (*it)->getName();
+            topLevel->setText(0, name);
+
+            for(int i=0; i<5; i++)
+            {
+                QTreeWidgetItem * item = new QTreeWidgetItem();
+                item->setText(0,"item " + QString::number(i+1));
+                topLevel->addChild(item);
+            }
+
+            tree->addTopLevelItem(topLevel);
         }
-
-        tree->addTopLevelItem(topLevel);
-
     }
 
+    if(!fileList.size())
+    {
+        tree->clear();
+    }
 }

@@ -20,15 +20,23 @@ private:
     bool quickFileCompire(QString file);
 
 public slots:
+    void handleInitFileChanged(const QString& name);
     void handleFileChanged(const QString& name);
+
+private slots:
+    void threadFinished();
 
 signals:
     void addChangedFile(const QString& name, bool isChanged);
     void addChangesToFile(const QString& name, const QString& changes);
+    void clearAllFiles();
 
 private:
-    Command* mCommand;
+    void stopAllCommads();
+
+private:
     Model* mModel;
+    vector<Command*> mCommandList;
 };
 
 #endif // CONTROLLER_H

@@ -4,6 +4,9 @@
 
 void ViewProxy::update(int event)
 {
+    notify(event);
+    return;
+
     switch(event)
     {
     case ViewSubject::FIX_CHANGES:
@@ -15,11 +18,11 @@ void ViewProxy::update(int event)
         //qInfo() << "REMOVE_SELECTED";
         break;
     case ViewSubject::CLEAR_ALL:
-        notify(ControllerSubject::FIX_CHANGES);
+        notify(ControllerSubject::CLEAR_ALL);
         //qInfo() << "CLEAR_ALL";
         break;
     case ViewSubject::MOVE_YOR_SELECTED:
-        notify(ControllerSubject::FIX_CHANGES);
+        notify(ControllerSubject::MOVE_YOR_SELECTED);
         //qInfo() << "MOVE_YOR_SELECTED";
         break;
     case ViewSubject::MOVE_YOUR_ALL:

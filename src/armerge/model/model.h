@@ -27,6 +27,7 @@ signals:
 public slots:
     void addChangedFile(QString name, bool isChanged);
     void addChangesToFile(const QString& name, const QString& changes);
+    void clearAllFiles();
 
 private:
     vFiles mChangedFiles;

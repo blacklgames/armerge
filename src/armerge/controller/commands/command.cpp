@@ -14,5 +14,14 @@ Command::~Command()
 
 }
 
-void Command::stop(){}
-void Command::execute(){}
+void Command::finishCommand()
+{
+    mIsFinished = true;
+    emit finished();
+}
+
+bool Command::isFinished()
+{
+    return mIsFinished;
+}
+void Command::execute(){cout << "execute base command (do nothing) " << endl;}
