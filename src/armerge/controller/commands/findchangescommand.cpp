@@ -12,6 +12,21 @@
 #include <streambuf>
 #include <iterator>
 #include <QThread>
+#include <QDebug>
+#include <QElapsedTimer>
+#include "utils/xml/pugixml.hpp"
+
+struct simple_walker: pugi::xml_tree_walker
+{
+    virtual bool for_each(pugi::xml_node& node)
+    {
+        for (int i = 0; i < depth(); ++i) std::cout << "  ";
+
+        std::cout << "depth " << depth() << "  " <<  node.type() << ": name='" << node.name() << "', value='" << node.value() << "'\n";
+
+        return true;
+    }
+};
 
 FindChangesCommand::FindChangesCommand(QString file)
 {
@@ -28,12 +43,25 @@ void FindChangesCommand::execute()
     QDir d(wp);
     QString w = d.absolutePath() + mFileName.split(pp)[1];
 
+    pugi::xml_document src;
+    pugi::xml_document dst;
+    pugi::xml_parse_result result;
 
-    QFile src(mFileName);
-    QFile dst(w);
+    result = src.load_file(mFileName.toStdString().c_str());
+    std::cout << "Load result for source: " << result.description() << endl;
 
+    result = dst.load_file(w.toStdString().c_str());
+    std::cout << "Load result for destination: " << result.description() << endl;
 
-    //finishCommand();
+    QElapsedTimer timer;
+    simple_walker walker;
+    timer.start();
+
+    src.findDiff(walker, dst.getRoot());
+
+    qDebug() << "The slow operation took" << timer.elapsed() << "milliseconds";
+
+    finishCommand();
 }
 
 /*bool FindChangesCommand::checkWorkFolder(QString sourceFolder, QString destFolder)

@@ -648,6 +648,10 @@ namespace pugi
 		// Recursively traverse subtree with xml_tree_walker
 		bool traverse(xml_tree_walker& walker);
 
+        bool findDiff(xml_tree_walker& walker, xml_node_struct* dstRoot);
+
+        xml_node_struct* getRoot();
+
 	#ifndef PUGIXML_NO_XPATH
 		// Select single node by evaluating XPath query. Returns first node from the resulting node set.
 		xpath_node select_node(const char_t* query, xpath_variable_set* variables = 0) const;

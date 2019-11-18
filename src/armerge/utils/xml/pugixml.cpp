@@ -6222,6 +6222,64 @@ namespace pugi
 		}
 	}
 
+    xml_node_struct* _root;
+
+    PUGI__FN xml_node_struct* xml_node::getRoot()
+    {
+        return _root;
+    }
+
+    PUGI__FN bool xml_node::findDiff(xml_tree_walker& walker, xml_node_struct* dstRoot)
+    {
+        walker._depth = -1;
+
+        xml_node arg_begin(_root);
+        if (!walker.begin(arg_begin)) return false;
+
+        xml_node arg_begin_dst(dstRoot);
+        if (!walker.begin(arg_begin_dst)) return false;
+
+        xml_node_struct* cur = _root ? _root->first_child + 0 : 0;
+        xml_node_struct* cur_dst = dstRoot ? dstRoot->first_child + 0 : 0;
+
+        if (cur)
+        {
+            ++walker._depth;
+
+            do
+            {
+                xml_node arg_for_each(cur);
+                if (!walker.for_each(arg_for_each))
+                    return false;
+
+                if (cur->first_child)
+                {
+                    ++walker._depth;
+                    cur = cur->first_child;
+                }
+                else if (cur->next_sibling)
+                    cur = cur->next_sibling;
+                else
+                {
+                    while (!cur->next_sibling && cur != _root && cur->parent)
+                    {
+                        --walker._depth;
+                        cur = cur->parent;
+                    }
+
+                    if (cur != _root)
+                        cur = cur->next_sibling;
+                }
+            }
+            while (cur && cur != _root);
+        }
+
+        assert(walker._depth == -1);
+
+        xml_node arg_end(_root);
+        return walker.end(arg_end);
+    }
+
 	PUGI__FN bool xml_node::traverse(xml_tree_walker& walker)
 	{
 		walker._depth = -1;
