@@ -17,8 +17,6 @@ public:
     void setName(QString& name);
     const QString& getName() const ;
 
-
-
 signals:
 
 public slots:

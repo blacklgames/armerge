@@ -134,6 +134,7 @@ namespace pugi
 // The PugiXML namespace
 namespace pugi
 {
+
 	// Tree node types
 	enum xml_node_type
 	{
@@ -512,7 +513,7 @@ namespace pugi
 		xml_node parent() const;
 
 		// Get root of DOM tree this node belongs to
-		xml_node root() const;
+        xml_node root();
 
 		// Get text object for the current node
 		xml_text text() const;
@@ -646,8 +647,7 @@ namespace pugi
 		xml_node first_element_by_path(const char_t* path, char_t delimiter = '/') const;
 
 		// Recursively traverse subtree with xml_tree_walker
-		bool traverse(xml_tree_walker& walker);
-
+        bool traverse(xml_tree_walker& walker);
         bool findDiff(xml_tree_walker& walker, xml_node_struct* dstRoot);
 
         xml_node_struct* getRoot();
@@ -930,12 +930,13 @@ namespace pugi
 	{
 		friend class xml_node;
 
-	private:
+    public:
 		int _depth;
 
-	protected:
+    public:
 		// Get current traversal depth
-		int depth() const;
+        int depth();
+        void setDepth(int dpt);
 
 	public:
 		xml_tree_walker();

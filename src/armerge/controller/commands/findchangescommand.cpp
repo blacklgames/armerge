@@ -54,58 +54,68 @@ void FindChangesCommand::execute()
     std::cout << "Load result for destination: " << result.description() << endl;
 
     QElapsedTimer timer;
-    simple_walker walker;
     timer.start();
 
-    src.findDiff(walker, dst.getRoot());
+    findDiff(src, dst);
 
     qDebug() << "The slow operation took" << timer.elapsed() << "milliseconds";
 
     finishCommand();
 }
 
-/*bool FindChangesCommand::checkWorkFolder(QString sourceFolder, QString destFolder)
+bool FindChangesCommand::findDiff(xml_document& src, xml_document& dst)
 {
-    if(this->thread()->isInterruptionRequested())
-        return false;
+    simple_walker walker;
 
-    bool success = false;
-    QDir sourceDir(sourceFolder);
+    walker._depth = -1;
 
-    if(!sourceDir.exists())
-        return false;
+    xml_node cur = src.root();
+    xml_node dst_cur = dst.root();
 
-    QDir destDir(destFolder);
-    if(!destDir.exists())
-        destDir.mkdir(destFolder);
-
-    QStringList files = sourceDir.entryList(QDir::Files);
-    for(int i = 0; i< files.count(); i++) {
-        if(this->thread()->isInterruptionRequested())
-            return false;
-        QString srcName = sourceDir.absolutePath() + QDir::separator() + files[i];
-        QString destName = destDir.absolutePath() + QDir::separator() + files[i];
-        QFile::remove(destName);
-        success = QFile::copy(srcName, destName);
-        if(!success)
-            return false;
-
-        mFileWatcher->addPath(srcName);
-    }
-
-    files.clear();
-    files = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-    for(int i = 0; i< files.count(); i++)
+    if (cur && dst_cur)
     {
-        if(this->thread()->isInterruptionRequested())
-            return false;
-        QString srcName = sourceDir.absolutePath() + QDir::separator() + files[i];
-        QString destName = destDir.absolutePath() + QDir::separator() + files[i];
-        success = checkWorkFolder(srcName, destName, isNew);
-        if(!success)
-            return false;
+        ++walker._depth;
+
+        do
+        {
+            xml_node srcVal(cur);
+            xml_node dstVal(dst_cur);
+
+
+            std::cout << "depth " << walker.depth() << "  " <<  srcVal.type() << ": name='" << srcVal.name() << "', value='" << srcVal.value() << "'\n";
+
+            if (cur.first_child())
+            {
+                ++walker._depth;
+                cur = cur.first_child();
+                dst_cur = dst_cur.first_child();
+            }
+            else if (cur.next_sibling())
+            {
+                cur = cur.next_sibling();
+                dst_cur = dst_cur.next_sibling();
+            }
+            else
+            {
+                while (!cur.next_sibling() && cur != src.root() && cur.parent())
+                {
+                    --walker._depth;
+                    cur = cur.parent();
+                    dst_cur = dst_cur.parent();
+                }
+
+                if (cur != src.root())
+                    cur = cur.next_sibling();
+                    dst_cur = dst_cur.next_sibling();
+            }
+        }
+        while ((cur && cur != src.root()) && (dst && dst != dst.root()));
     }
 
-    return true;
+    //assert(walker._depth == -1);
+
+    xml_node arg_end(src.root());
+    xml_node dst_arg_end(dst.root());
+    return walker.end(arg_end) && walker.end(dst_arg_end);
 }
-*/
+

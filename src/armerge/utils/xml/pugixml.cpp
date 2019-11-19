@@ -21,6 +21,7 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
+#include <iostream>
 
 #ifdef PUGIXML_WCHAR_MODE
 #	include <wchar.h>
@@ -1091,43 +1092,43 @@ namespace pugi
 #else
 namespace pugi
 {
-	struct xml_attribute_struct
-	{
-		xml_attribute_struct(impl::xml_memory_page* page): name(0), value(0), prev_attribute_c(0), next_attribute(0)
-		{
-			header = PUGI__GETHEADER_IMPL(this, page, 0);
-		}
+    struct xml_attribute_struct
+    {
+        xml_attribute_struct(impl::xml_memory_page* page): name(0), value(0), prev_attribute_c(0), next_attribute(0)
+        {
+            header = PUGI__GETHEADER_IMPL(this, page, 0);
+        }
 
-		uintptr_t header;
+        uintptr_t header;
 
-		char_t*	name;
-		char_t*	value;
+        char_t*	name;
+        char_t*	value;
 
-		xml_attribute_struct* prev_attribute_c;
-		xml_attribute_struct* next_attribute;
-	};
+        xml_attribute_struct* prev_attribute_c;
+        xml_attribute_struct* next_attribute;
+    };
 
-	struct xml_node_struct
-	{
-		xml_node_struct(impl::xml_memory_page* page, xml_node_type type): name(0), value(0), parent(0), first_child(0), prev_sibling_c(0), next_sibling(0), first_attribute(0)
-		{
-			header = PUGI__GETHEADER_IMPL(this, page, type);
-		}
+    struct xml_node_struct
+    {
+        xml_node_struct(impl::xml_memory_page* page, xml_node_type type): name(0), value(0), parent(0), first_child(0), prev_sibling_c(0), next_sibling(0), first_attribute(0)
+        {
+            header = PUGI__GETHEADER_IMPL(this, page, type);
+        }
 
-		uintptr_t header;
+        uintptr_t header;
 
-		char_t* name;
-		char_t* value;
+        char_t* name;
+        char_t* value;
 
-		xml_node_struct* parent;
+        xml_node_struct* parent;
 
-		xml_node_struct* first_child;
+        xml_node_struct* first_child;
 
-		xml_node_struct* prev_sibling_c;
-		xml_node_struct* next_sibling;
+        xml_node_struct* prev_sibling_c;
+        xml_node_struct* next_sibling;
 
-		xml_attribute_struct* first_attribute;
-	};
+        xml_attribute_struct* first_attribute;
+    };
 }
 #endif
 
@@ -5090,10 +5091,15 @@ namespace pugi
 	{
 	}
 
-	PUGI__FN int xml_tree_walker::depth() const
+    PUGI__FN int xml_tree_walker::depth()
 	{
 		return _depth;
 	}
+
+    void xml_tree_walker::setDepth(int dpt)
+    {
+        _depth = dpt;
+    }
 
 	PUGI__FN bool xml_tree_walker::begin(xml_node&)
 	{
@@ -5586,7 +5592,7 @@ namespace pugi
 		return _root ? xml_node(_root->parent) : xml_node();
 	}
 
-	PUGI__FN xml_node xml_node::root() const
+    PUGI__FN xml_node xml_node::root()
 	{
 		return _root ? xml_node(&impl::get_document(_root)) : xml_node();
 	}
@@ -6220,11 +6226,9 @@ namespace pugi
 
 			return xml_node();
 		}
-	}
+    }
 
-    xml_node_struct* _root;
-
-    PUGI__FN xml_node_struct* xml_node::getRoot()
+    PUGI__FN pugi::xml_node_struct* xml_node::getRoot()
     {
         return _root;
     }
@@ -6236,51 +6240,61 @@ namespace pugi
         xml_node arg_begin(_root);
         if (!walker.begin(arg_begin)) return false;
 
-        xml_node arg_begin_dst(dstRoot);
-        if (!walker.begin(arg_begin_dst)) return false;
+        xml_node dst_arg_begin(dstRoot);
+        if (!walker.begin(dst_arg_begin)) return false;
 
         xml_node_struct* cur = _root ? _root->first_child + 0 : 0;
-        xml_node_struct* cur_dst = dstRoot ? dstRoot->first_child + 0 : 0;
+        xml_node_struct* dst_cur = dstRoot ? dstRoot->first_child + 0 : 0;
 
-        if (cur)
+        if (cur && dst_cur)
         {
             ++walker._depth;
 
             do
             {
-                xml_node arg_for_each(cur);
-                if (!walker.for_each(arg_for_each))
-                    return false;
+                xml_node srcVal(cur);
+                xml_node dstVal(dst_cur);
+
+
+                std::cout << "depth " << walker.depth() << "  " <<  srcVal.type() << ": name='" << srcVal.name() << "', value='" << srcVal.value() << "'\n";
 
                 if (cur->first_child)
                 {
                     ++walker._depth;
                     cur = cur->first_child;
+                    dst_cur = dst_cur->first_child;
                 }
                 else if (cur->next_sibling)
+                {
                     cur = cur->next_sibling;
+                    dst_cur = dst_cur->next_sibling;
+                }
                 else
                 {
                     while (!cur->next_sibling && cur != _root && cur->parent)
                     {
                         --walker._depth;
                         cur = cur->parent;
+                        dst_cur = dst_cur->parent;
                     }
 
                     if (cur != _root)
                         cur = cur->next_sibling;
+                        dst_cur = dst_cur->next_sibling;
                 }
             }
-            while (cur && cur != _root);
+            while ((cur && cur != _root) && (dst_cur && dst_cur != dstRoot));
         }
 
-        assert(walker._depth == -1);
+        //assert(walker._depth == -1);
 
         xml_node arg_end(_root);
-        return walker.end(arg_end);
+        xml_node dst_arg_end(dstRoot);
+        return walker.end(arg_end) && walker.end(dst_arg_end);
     }
 
-	PUGI__FN bool xml_node::traverse(xml_tree_walker& walker)
+
+    PUGI__FN bool xml_node::traverse(xml_tree_walker& walker)
 	{
 		walker._depth = -1;
 
