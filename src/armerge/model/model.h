@@ -29,6 +29,8 @@ public slots:
     void addChangesToFile(const QString& name, const QString& changes);
     void clearAllFiles();
 
+    void updateChanges(Changes* changes);
+
 private:
     vFiles mChangedFiles;
     vChanges mChanges;

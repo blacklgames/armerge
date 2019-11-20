@@ -1,3 +1,9 @@
+#include "model/objects/changes.h"
+
+Changes::Changes(QObject *parent)
+{
+
+}
 
 int Changes::line() const
 {
@@ -27,4 +33,14 @@ eChangeType Changes::changeType() const
 void Changes::setChangeType(const eChangeType &changeType)
 {
     mChangeType = changeType;
+}
+
+QString Changes::name() const
+{
+    return mName;
+}
+
+void Changes::setName(QString &name)
+{
+    mName = name;
 }

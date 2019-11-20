@@ -17,7 +17,7 @@ class Changes : public QObject
 {
     Q_OBJECT
 public:
-    explicit Changes(QObject *parent = nullptr);
+    Changes(QObject *parent = nullptr);
 
     int line() const;
     void setLine(int line);
@@ -28,11 +28,15 @@ public:
     eChangeType changeType() const;
     void setChangeType(const eChangeType &changeType);
 
+    QString name() const;
+    void setName(QString &name);
+
 signals:
 
 public slots:
 
 private:
+    QString mName;
     int mLine;
     string mText;
     eChangeType mChangeType;

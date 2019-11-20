@@ -82,7 +82,25 @@ bool FindChangesCommand::findDiff(xml_document& src, xml_document& dst)
             xml_node dstVal(dst_cur);
 
 
-            std::cout << "depth " << walker.depth() << "  " <<  srcVal.type() << ": name='" << srcVal.name() << "', value='" << srcVal.value() << "'\n";
+            //std::cout << "depth " << walker.depth() << "  " <<  srcVal.type() << ": name='" << srcVal.name() << "', value='" << srcVal.value() << "'\n";
+            //std::cout << "depth " << walker.depth() << "  " <<  dstVal.type() << ": name='" << dstVal.name() << "', value='" << dstVal.value() << "'\n";
+
+            if(srcVal.name() != dstVal.name())
+            {
+                Changes* ch = new Changes();
+                ch->setName(mFileName);
+                ch->setText("text");
+                ch->setLine(walker.depth());
+                emit findChanges(ch);
+            }
+            else if(srcVal.value() != dstVal.value())
+            {
+                Changes* ch = new Changes();
+                ch->setName(mFileName);
+                ch->setText("text");
+                ch->setLine(walker.depth());
+                emit findChanges(ch);
+            }
 
             if (cur.first_child())
             {
@@ -109,10 +127,8 @@ bool FindChangesCommand::findDiff(xml_document& src, xml_document& dst)
                     dst_cur = dst_cur.next_sibling();
             }
         }
-        while ((cur && cur != src.root()) && (dst && dst != dst.root()));
+        while (cur && cur != src.root());
     }
-
-    //assert(walker._depth == -1);
 
     xml_node arg_end(src.root());
     xml_node dst_arg_end(dst.root());

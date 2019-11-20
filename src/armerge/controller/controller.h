@@ -23,6 +23,8 @@ public slots:
     void handleInitFileChanged(const QString& name);
     void handleFileChanged(const QString& name);
 
+    void findChanges(Changes* changes);
+
 private slots:
     void threadFinished();
 
@@ -30,6 +32,8 @@ signals:
     void addChangedFile(const QString& name, bool isChanged);
     void addChangesToFile(const QString& name, const QString& changes);
     void clearAllFiles();
+
+    void updateChanges(Changes* changes);
 
 private:
     void stopAllCommads();

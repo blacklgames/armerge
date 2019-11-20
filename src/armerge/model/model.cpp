@@ -47,3 +47,13 @@ void Model::addChangesToFile(const QString& name, const QString& changes)
 {
 
 }
+
+void Model::updateChanges(Changes* changes)
+{
+    for (auto ch : mChangedFiles) {
+        if(ch->name() == changes->name())
+        {
+
+        }
+    }
+}

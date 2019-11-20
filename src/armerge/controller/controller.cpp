@@ -23,6 +23,7 @@ void Controller::setModel(Model* model)
     mModel = model;
     connect(this, SIGNAL(addChangedFile(const QString&, bool)), mModel, SLOT(addChangedFile(QString, bool)));
     connect(this, SIGNAL(clearAllFiles()), mModel, SLOT(clearAllFiles()));
+    connect(this, SIGNAL(updateChanges(Changes*)), mModel, SLOT(updateChanges(Changes*)));
 }
 
 void Controller::startCommandThread(Command* command)
@@ -87,6 +88,7 @@ void Controller::update(int event)
 void Controller::handleInitFileChanged(const QString& name)
 {
     FindChangesCommand* cmd = new FindChangesCommand(name);
+    connect(cmd, SIGNAL(findChanges(Changes*)), this, SLOT(findChanges(Changes*)));
     startCommandThread(cmd);
     emit addChangedFile(name, true);
 }
@@ -97,6 +99,7 @@ void Controller::handleFileChanged(const QString& name)
     if(isChanged)
     {
         FindChangesCommand* cmd = new FindChangesCommand(name);
+        connect(cmd, SIGNAL(findChanges(Changes)), this, SLOT(findChanges(Changes)));
         startCommandThread(cmd);
     }
     emit addChangedFile(name, isChanged);
@@ -134,4 +137,9 @@ void Controller::threadFinished()
         std::remove_if(mCommandList.begin(), mCommandList.end(),[](Command* x) {
                     return x->isFinished();}),
         mCommandList.end());
+}
+
+void Controller::findChanges(Changes* changes)
+{
+    emit updateChanges(changes);
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include "command.h"
 #include "utils/xml/pugixml.hpp"
+#include "model/objects/changes.h"
 
 using namespace pugi;
 
@@ -15,6 +16,7 @@ public:
     bool findDiff(xml_document& src, xml_document& dst);
 
 signals:
+    void findChanges(Changes* changes);
 
 public slots:
     virtual void execute();
